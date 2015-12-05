@@ -4,7 +4,6 @@ import application.cli.ReportPrinter;
 import application.persistance.Repository;
 import model.GetPeriodReport;
 import model.exception.InvalidArgumentException;
-import model.report.MonthlyReport;
 import model.report.MonthlyReportCollection;
 import model.report.MonthlyReportInterface;
 import model.value.Month;
@@ -22,7 +21,6 @@ public class Application {
             System.out.println("FinanceReport ----------------------------");
             System.out.println("1) show transactions");
             System.out.println("2) show monthly report");
-            System.out.println("q) exit");
 
             option = s.next();
             if (Objects.equals(option, "1")) {
@@ -38,23 +36,25 @@ public class Application {
     }
 
     private static void generateMonthlyReport() throws SQLException, InvalidArgumentException {
+        System.out.println("Monthly report");
         Month monthEnd = getPreviousMonth();
         Month monthStart = monthEnd.getPreviousMonth().getPreviousMonth();
 
-        GetPeriodReport getPeriodReport = new GetPeriodReport(getRepository());
-        ArrayList<MonthlyReportInterface> monthlyReports = getPeriodReport.getMonthlyReports(monthStart, monthEnd);
+        ArrayList<MonthlyReportInterface> monthlyReports = new GetPeriodReport(getRepository()).getMonthlyReports(monthStart, monthEnd);
         monthlyReports.add(new MonthlyReportCollection(monthlyReports));
 
+        System.out.println(new ReportPrinter(getTransactionTypes()).print(monthlyReports));
+    }
+
+    private static List<TransactionType> getTransactionTypes() {
         List<TransactionType> transactionTypes = new ArrayList<>(EnumSet.allOf(TransactionType.class));
         transactionTypes.remove(TransactionType.DEBTS);
-
-        ReportPrinter printer = new ReportPrinter(transactionTypes);
-        System.out.println(printer.print(monthlyReports));
+        return transactionTypes;
     }
 
     private static void dumpTransactions() throws SQLException {
         Month month = getPreviousMonth();
-        System.out.println("Transactions " + month.toString());
+        System.out.println("Transactions dump: " + month.toString());
 
         Repository repository = getRepository();
         List<Transaction> transactions = repository.getTransactionsForMonth(month);
