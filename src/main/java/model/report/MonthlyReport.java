@@ -1,18 +1,16 @@
 package model.report;
 
-import model.Month;
-import model.Transaction;
-import model.TransactionType;
+import model.value.Month;
+import model.value.Transaction;
+import model.value.TransactionType;
 import model.exception.InvalidArgumentException;
 import java.util.List;
 import java.util.Objects;
 
-public class MonthlyReport {
+public class MonthlyReport implements MonthlyReportInterface {
     private List<Transaction> transactions;
-    private Month month;
 
-    public MonthlyReport(Month month, List<Transaction> transactions) throws InvalidArgumentException {
-        this.month = month;
+    public MonthlyReport(List<Transaction> transactions) throws InvalidArgumentException {
         String lastMonth = null;
         for (Transaction transaction : transactions) {
             if (lastMonth != null && !Objects.equals(transaction.getMonthYear(), lastMonth)) {
@@ -26,7 +24,18 @@ public class MonthlyReport {
         this.transactions = transactions;
     }
 
-    public float getSum(TransactionType type) {
+    @Override
+    public String getMonthLabel()
+    {
+        return getMonth().toString();
+    }
+
+    private Month getMonth() {
+        return this.transactions.get(0).getMonth();
+    }
+
+    @Override
+    public float getTotal(TransactionType type) {
         float sum = 0f;
 
         for (Transaction transaction : transactions) {
@@ -37,6 +46,7 @@ public class MonthlyReport {
         return sum;
     }
 
+    @Override
     public float getTotal() {
         float sum = 0f;
 
@@ -46,7 +56,8 @@ public class MonthlyReport {
         return sum;
     }
 
+    @Override
     public float getDailyAverage() {
-        return getTotal()/this.month.getDaysCount();
+        return getTotal()/this.getMonth().getDaysCount();
     }
 }

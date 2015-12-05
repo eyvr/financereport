@@ -1,5 +1,7 @@
 package model;
 
+import model.value.Transaction;
+import model.value.TransactionType;
 import org.junit.Test;
 
 import java.util.Calendar;

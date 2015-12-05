@@ -1,4 +1,4 @@
-package model;
+package model.value;
 
 public class Month {
     private int year;

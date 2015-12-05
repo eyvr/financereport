@@ -1,6 +1,7 @@
-import model.Month;
-import model.report.PeriodReport;
-import model.Transaction;
+import model.GetPeriodReport;
+import model.report.MonthlyReportInterface;
+import model.value.Month;
+import model.value.Transaction;
 import model.exception.InvalidArgumentException;
 import model.persistance.Repository;
 import org.junit.Before;
@@ -12,7 +13,7 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
-public class GetPeriodReportTest {
+public class GetMonthlyReportCollectionTest {
     Repository repository;
     GetPeriodReport testClass;
 
@@ -32,7 +33,7 @@ public class GetPeriodReportTest {
         when(repository.getTransactionsForMonth(month2)).thenReturn(transactions);
         when(repository.getTransactionsForMonth(month3)).thenReturn(transactions);
 
-        PeriodReport result = this.testClass.getPeriodReport(month, month3);
-        assertNotNull(result);
+        List<MonthlyReportInterface> reports = this.testClass.getMonthlyReports(month, month3);
+        assertEquals(3, reports.size());
     }
 }

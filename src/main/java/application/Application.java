@@ -1,24 +1,29 @@
 package application;
 
+import application.cli.ReportPrinter;
 import application.persistance.Repository;
-import model.Month;
-import model.Transaction;
+import model.GetPeriodReport;
+import model.exception.InvalidArgumentException;
+import model.report.MonthlyReport;
+import model.report.MonthlyReportCollection;
+import model.report.MonthlyReportInterface;
+import model.value.Month;
+import model.value.Transaction;
+import model.value.TransactionType;
 
 import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class Application {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, InvalidArgumentException {
         Scanner s = new Scanner(System.in);
         String option;
         while (true) {
             System.out.println("FinanceReport ----------------------------");
-            System.out.println("1) dump transactions");
-            System.out.println("2) generate monthly report");
+            System.out.println("1) show transactions");
+            System.out.println("2) show monthly report");
             System.out.println("q) exit");
+
             option = s.next();
             if (Objects.equals(option, "1")) {
                 dumpTransactions();
@@ -32,8 +37,19 @@ public class Application {
         }
     }
 
-    private static void generateMonthlyReport() {
-        System.out.println("report");
+    private static void generateMonthlyReport() throws SQLException, InvalidArgumentException {
+        Month monthEnd = getPreviousMonth();
+        Month monthStart = monthEnd.getPreviousMonth().getPreviousMonth();
+
+        GetPeriodReport getPeriodReport = new GetPeriodReport(getRepository());
+        ArrayList<MonthlyReportInterface> monthlyReports = getPeriodReport.getMonthlyReports(monthStart, monthEnd);
+        monthlyReports.add(new MonthlyReportCollection(monthlyReports));
+
+        List<TransactionType> transactionTypes = new ArrayList<>(EnumSet.allOf(TransactionType.class));
+        transactionTypes.remove(TransactionType.DEBTS);
+
+        ReportPrinter printer = new ReportPrinter(transactionTypes);
+        System.out.println(printer.print(monthlyReports));
     }
 
     private static void dumpTransactions() throws SQLException {

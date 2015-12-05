@@ -1,8 +1,11 @@
-import model.Month;
+package model;
+
+import model.report.MonthlyReportCollection;
+import model.report.MonthlyReportInterface;
+import model.value.Month;
 import model.exception.InvalidArgumentException;
 import model.persistance.Repository;
 import model.report.MonthlyReport;
-import model.report.PeriodReport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,16 +17,16 @@ public class GetPeriodReport {
         this.repository = repository;
     }
 
-    public PeriodReport getPeriodReport(Month startMonth, Month endMonth) throws InvalidArgumentException {
+    public ArrayList<MonthlyReportInterface> getMonthlyReports(Month startMonth, Month endMonth) throws InvalidArgumentException {
         Month current = startMonth;
-        List<MonthlyReport> reports = new ArrayList<>();
+        ArrayList<MonthlyReportInterface> reports = new ArrayList<>();
 
         while (current.isEarlierThan(endMonth) || current.isEqualTo(endMonth)) {
             reports.add(
-                    new MonthlyReport(current, repository.getTransactionsForMonth(current))
+                    new MonthlyReport(repository.getTransactionsForMonth(current))
             );
             current = current.getNextMonth();
         }
-        return new PeriodReport(startMonth, endMonth, reports);
+        return reports;
     }
 }

@@ -1,7 +1,7 @@
 package model.persistance;
 
-import model.Month;
-import model.Transaction;
+import model.value.Month;
+import model.value.Transaction;
 
 import java.util.List;
 

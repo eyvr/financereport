@@ -1,8 +1,8 @@
 package application.persistance;
 
-import model.Month;
-import model.Transaction;
-import model.TransactionType;
+import model.value.Month;
+import model.value.Transaction;
+import model.value.TransactionType;
 
 import java.sql.*;
 import java.util.ArrayList;
