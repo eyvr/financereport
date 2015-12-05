@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_financereport" default="compile.module.financereport">
+  <dirname property="module.financereport.basedir" file="${ant.file.module_financereport}"/>
+  
+  <property name="module.jdk.home.financereport" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.financereport" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.financereport" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.financereport" value="-encoding UTF-8 -source 1.7 -target 1.7 ${compiler.args}"/>
+  
+  <property name="financereport.output.dir" value="${module.financereport.basedir}/build/classes/main"/>
+  <property name="financereport.testoutput.dir" value="${module.financereport.basedir}/build/classes/test"/>
+  
+  <path id="financereport.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="financereport.module.production.classpath">
+    <path refid="${module.jdk.classpath.financereport}"/>
+    <path refid="library.com.bluecatcode.mockito:mockito-1.10.19-extended:1.0.3.classpath"/>
+    <path refid="library.mysql:mysql-connector-java:5.1.37.classpath"/>
+  </path>
+  
+  <path id="financereport.runtime.production.module.classpath">
+    <pathelement location="${financereport.output.dir}"/>
+    <path refid="library.com.bluecatcode.mockito:mockito-1.10.19-extended:1.0.3.classpath"/>
+    <path refid="library.mysql:mysql-connector-java:5.1.37.classpath"/>
+  </path>
+  
+  <path id="financereport.module.classpath">
+    <path refid="${module.jdk.classpath.financereport}"/>
+    <pathelement location="${financereport.output.dir}"/>
+    <pathelement location="${basedir}/../../.gradle/caches/modules-2/files-2.1/junit/junit/4.11/4e031bb61df09069aeb2bffb4019e7a5034a4ee0/junit-4.11.jar"/>
+    <pathelement location="${basedir}/../../.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar"/>
+    <path refid="library.com.bluecatcode.mockito:mockito-1.10.19-extended:1.0.3.classpath"/>
+    <path refid="library.mysql:mysql-connector-java:5.1.37.classpath"/>
+  </path>
+  
+  <path id="financereport.runtime.module.classpath">
+    <pathelement location="${financereport.testoutput.dir}"/>
+    <pathelement location="${financereport.output.dir}"/>
+    <pathelement location="${basedir}/../../.gradle/caches/modules-2/files-2.1/junit/junit/4.11/4e031bb61df09069aeb2bffb4019e7a5034a4ee0/junit-4.11.jar"/>
+    <pathelement location="${basedir}/../../.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar"/>
+    <path refid="library.com.bluecatcode.mockito:mockito-1.10.19-extended:1.0.3.classpath"/>
+    <path refid="library.mysql:mysql-connector-java:5.1.37.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.financereport">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.financereport">
+    <patternset refid="excluded.from.module.financereport"/>
+  </patternset>
+  
+  <path id="financereport.module.sourcepath">
+    <dirset dir="${module.financereport.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  <path id="financereport.module.test.sourcepath">
+    <dirset dir="${module.financereport.basedir}">
+      <include name="src/test/java"/>
+      <include name="src/test/resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.financereport" depends="compile.module.financereport.production,compile.module.financereport.tests" description="Compile module financereport"/>
+  
+  <target name="compile.module.financereport.production" depends="register.custom.compilers" description="Compile module financereport; production classes">
+    <mkdir dir="${financereport.output.dir}"/>
+    <javac2 destdir="${financereport.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.financereport}/javac">
+      <compilerarg line="${compiler.args.financereport}"/>
+      <bootclasspath refid="financereport.module.bootclasspath"/>
+      <classpath refid="financereport.module.production.classpath"/>
+      <src refid="financereport.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.financereport"/>
+    </javac2>
+    
+    <copy todir="${financereport.output.dir}">
+      <fileset dir="${module.financereport.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.financereport.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.financereport.tests" depends="register.custom.compilers,compile.module.financereport.production" description="compile module financereport; test classes" unless="skip.tests">
+    <mkdir dir="${financereport.testoutput.dir}"/>
+    <javac2 destdir="${financereport.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.financereport}/javac">
+      <compilerarg line="${compiler.args.financereport}"/>
+      <bootclasspath refid="financereport.module.bootclasspath"/>
+      <classpath refid="financereport.module.classpath"/>
+      <src refid="financereport.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.financereport"/>
+    </javac2>
+    
+    <copy todir="${financereport.testoutput.dir}">
+      <fileset dir="${module.financereport.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.financereport.basedir}/src/test/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.financereport" description="cleanup module">
+    <delete dir="${financereport.output.dir}"/>
+    <delete dir="${financereport.testoutput.dir}"/>
+  </target>
+</project>
