@@ -4,11 +4,11 @@ import model.value.TransactionType;
 
 import java.util.ArrayList;
 
-public class MonthlyReportCollection implements MonthlyReportInterface{
+public class AveragingMonthlyReportCollection implements MonthlyReportInterface{
 
     private ArrayList<MonthlyReportInterface> reports;
 
-    public MonthlyReportCollection(ArrayList<MonthlyReportInterface> reports) {
+    public AveragingMonthlyReportCollection(ArrayList<MonthlyReportInterface> reports) {
         this.reports = (ArrayList<MonthlyReportInterface>) reports.clone();
     }
 

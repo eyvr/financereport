@@ -4,7 +4,9 @@ import application.cli.ReportPrinter;
 import application.persistance.Repository;
 import model.GetPeriodReport;
 import model.exception.InvalidArgumentException;
-import model.report.MonthlyReportCollection;
+import model.factory.RelevantMonthsFactory;
+import model.factory.RelevantReportsFactory;
+import model.factory.ReportFactory;
 import model.report.MonthlyReportInterface;
 import model.value.Month;
 import model.value.Transaction;
@@ -36,13 +38,7 @@ public class Application {
     }
 
     private static void generateMonthlyReport() throws SQLException, InvalidArgumentException {
-        System.out.println("Monthly report");
-        Month monthEnd = getPreviousMonth();
-        Month monthStart = monthEnd.getPreviousMonth().getPreviousMonth();
-
-        ArrayList<MonthlyReportInterface> monthlyReports = new GetPeriodReport(getRepository()).getMonthlyReports(monthStart, monthEnd);
-        monthlyReports.add(new MonthlyReportCollection(monthlyReports));
-
+        ArrayList<MonthlyReportInterface> monthlyReports = new GetPeriodReport(getRelevantReportFactory()).getMonthlyReports(Month.createCurrent());
         System.out.println(new ReportPrinter(getTransactionTypes()).print(monthlyReports));
     }
 
@@ -53,7 +49,7 @@ public class Application {
     }
 
     private static void dumpTransactions() throws SQLException {
-        Month month = getPreviousMonth();
+        Month month = Month.createCurrent().getPreviousMonth();
         System.out.println("Transactions dump: " + month.toString());
 
         Repository repository = getRepository();
@@ -63,14 +59,11 @@ public class Application {
         }
     }
 
-    private static Month getPreviousMonth() {
-        Calendar cal = Calendar.getInstance();
-        Month month = new Month(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1);
-        month = month.getPreviousMonth();
-        return month;
-    }
-
     private static Repository getRepository() throws SQLException {
         return new Repository("localhost", 3306, "root", "password", "transactions");
+    }
+
+    public static RelevantReportsFactory getRelevantReportFactory() throws SQLException {
+        return new RelevantReportsFactory(new RelevantMonthsFactory(), new ReportFactory(getRepository()));
     }
 }

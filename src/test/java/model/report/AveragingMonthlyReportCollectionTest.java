@@ -1,18 +1,16 @@
 package model.report;
 
-import model.value.Month;
 import model.exception.InvalidArgumentException;
 import model.value.TransactionType;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-public class MonthlyReportCollectionTest {
+public class AveragingMonthlyReportCollectionTest {
     private MonthlyReport monthlyReport1;
     private MonthlyReport monthlyReport2;
 
@@ -31,13 +29,13 @@ public class MonthlyReportCollectionTest {
 
     @Test
     public void testGetDailyAverage() throws InvalidArgumentException {
-        MonthlyReportCollection report = new MonthlyReportCollection(getMockedReports());
+        AveragingMonthlyReportCollection report = new AveragingMonthlyReportCollection(getMockedReports());
         assertEquals(25f, report.getDailyAverage(), 0);
     }
 
     @Test
     public void testGetMonthLabel() throws Exception {
-        MonthlyReportCollection report = new MonthlyReportCollection(getMockedReports());
+        AveragingMonthlyReportCollection report = new AveragingMonthlyReportCollection(getMockedReports());
         assertEquals("average", report.getMonthLabel());
     }
 
@@ -51,14 +49,14 @@ public class MonthlyReportCollectionTest {
     @Test
     public void testGetTotal() throws Exception {
 
-        MonthlyReportCollection report = new MonthlyReportCollection(getMockedReports());
+        AveragingMonthlyReportCollection report = new AveragingMonthlyReportCollection(getMockedReports());
         assertEquals(125.00f, report.getTotal(), 0);
     }
 
     @Test
     public void testGetTotal1() throws Exception {
 
-        MonthlyReportCollection report = new MonthlyReportCollection(getMockedReports());
+        AveragingMonthlyReportCollection report = new AveragingMonthlyReportCollection(getMockedReports());
         assertEquals(3.00f, report.getTotal(TransactionType.CLOTHES), 0);
     }
 }

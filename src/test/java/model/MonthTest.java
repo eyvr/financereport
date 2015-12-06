@@ -99,4 +99,10 @@ public class MonthTest {
         assertEquals("2016-01", m.getPreviousMonth().getPreviousMonth().toString());
         assertEquals("2015-12", m.getPreviousMonth().getPreviousMonth().getPreviousMonth().toString());
     }
+
+    @Test
+    public void testCreateFromString() throws Exception {
+        Month month = Month.createFromString("2015-01");
+        assertTrue(new Month(2015, 1).isEqualTo(month));
+    }
 }
