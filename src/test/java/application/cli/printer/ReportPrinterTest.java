@@ -1,5 +1,6 @@
-package application.cli;
+package application.cli.printer;
 
+import application.cli.output.FakeOutput;
 import model.exception.InvalidArgumentException;
 import model.report.MonthlyReport;
 import model.report.MonthlyReportInterface;
@@ -13,12 +14,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ReportPrinterTest {
 
     private ReportPrinter printer;
     private List<MonthlyReportInterface> reports;
+    private FakeOutput output;
 
     @Before
     public void setUp() throws Exception, InvalidArgumentException {
@@ -44,19 +46,20 @@ public class ReportPrinterTest {
         reports.add(new MonthlyReport(transactions));
 
         this.reports = reports;
-        this.printer = new ReportPrinter(types);
+        this.output = new FakeOutput();
+        this.printer = new ReportPrinter(this.output, types);
     }
 
     @Test
     public void testPrint()
     {
-        String result = this.printer.print(this.reports);
+        this.printer.print(this.reports);
         assertEquals(
                 "               2015-02  2015-03\n" +
                 "entertainment    11.00     1.00\n" +
                 "         food     2.00     3.00\n" +
                 "        TOTAL    13.00     4.00\n",
-                result
+                this.output.getOutput()
         );
     }
 

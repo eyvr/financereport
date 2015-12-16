@@ -1,4 +1,4 @@
-package model.factory;
+package model.report.factory;
 
 import model.exception.InvalidArgumentException;
 import model.persistance.Repository;
@@ -8,10 +8,11 @@ import model.value.Transaction;
 import model.value.TransactionType;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -25,7 +26,7 @@ public class ReportFactoryTest {
         Month month = Month.createFromString("2015-01");
 
         ArrayList<Transaction> list = new ArrayList<>();
-        list.add(new Transaction("asd", month.getDate(1), TransactionType.CLOTHES, 12f));
+        list.add(new Transaction("asd", new SimpleDateFormat("yyyy-MM-dd").parse("2015-01-01"), TransactionType.CLOTHES, 12f));
         when(repository.getTransactionsForMonth(month)).thenReturn(list);
 
         MonthlyReport result = reportFactory.createMonthlyReport(month);

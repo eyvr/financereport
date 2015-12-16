@@ -1,9 +1,10 @@
 package model.report;
 
+import model.exception.InvalidArgumentException;
 import model.value.Month;
 import model.value.Transaction;
 import model.value.TransactionType;
-import model.exception.InvalidArgumentException;
+
 import java.util.List;
 import java.util.Objects;
 

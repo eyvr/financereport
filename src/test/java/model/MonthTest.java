@@ -31,31 +31,13 @@ public class MonthTest {
 
     @Test
     public void testIsEarlierThan() throws Exception {
-        Month m = new Month(2016, 1);
-        Month m2 = new Month(2012, 8);
+        Month m = new Month(2000, 6);
 
-        assertTrue(m2.isEarlierThan(m));
-        assertFalse(m.isEarlierThan(m2));
+        assertTrue(m.isEarlierThan(new Month(2001, 1)));
+        assertTrue(m.isEarlierThan(new Month(2000, 7)));
+        assertFalse(m.isEarlierThan(new Month(2000, 6)));
+        assertFalse(m.isEarlierThan(new Month(1999, 9)));
         assertFalse(m.isEarlierThan(m));
-        assertFalse(m2.isEarlierThan(m2));
-
-        Month m3 = new Month(2012, 2);
-        assertTrue(m3.isEarlierThan(m2));
-        assertFalse(m2.isEarlierThan(m3));
-        assertFalse(m.isEarlierThan(m3));
-    }
-
-    @Test
-    public void testIsEqualTo() throws Exception {
-        Month m = new Month(2016, 1);
-        Month m2 = new Month(2012, 8);
-        Month m3 = new Month(2016, 1);
-        assertTrue(m.isEqualTo(m3));
-        assertTrue(m3.isEqualTo(m));
-        assertFalse(m2.isEqualTo(m3));
-        assertFalse(m2.isEqualTo(m));
-        assertFalse(m.isEqualTo(m2));
-        assertFalse(m3.isEqualTo(m2));
     }
 
     @Test
@@ -103,6 +85,25 @@ public class MonthTest {
     @Test
     public void testCreateFromString() throws Exception {
         Month month = Month.createFromString("2015-01");
-        assertTrue(new Month(2015, 1).isEqualTo(month));
+        assertEquals(new Month(2015, 1).toString(), month.toString());
+    }
+
+    @Test
+    public void testIsEqual() throws Exception {
+        assertTrue(new Month(2015, 1).isEqual(new Month(2015, 1)));
+        assertFalse(new Month(2014, 1).isEqual(new Month(2015, 1)));
+        assertFalse(new Month(2015, 1).isEqual(new Month(2015, 2)));
+        assertFalse(new Month(2016, 1).isEqual(new Month(2015, 2)));
+    }
+
+    @Test
+    public void testGetDiff() throws Exception {
+        assertEquals(0, new Month(2015, 1).getDiff(new Month(2015, 1)));
+        assertEquals(1, new Month(2015, 1).getDiff(new Month(2015, 2)));
+        assertEquals(11, new Month(2015, 1).getDiff(new Month(2015, 12)));
+        assertEquals(12, new Month(2015, 1).getDiff(new Month(2016, 1)));
+        assertEquals(24, new Month(2015, 1).getDiff(new Month(2017, 1)));
+        assertEquals(24, new Month(2017, 1).getDiff(new Month(2015, 1)));
+        assertEquals(2, new Month(2017, 4).getDiff(new Month(2017, 2)));
     }
 }

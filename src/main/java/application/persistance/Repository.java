@@ -8,6 +8,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static model.value.TransactionType.DEBTS;
+
 public class Repository implements model.persistance.Repository {
     private final Connection connection;
 

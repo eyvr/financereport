@@ -1,13 +1,10 @@
 package model;
 
-import model.factory.RelevantReportsFactory;
-import model.factory.ReportFactory;
+import model.exception.InvalidArgumentException;
 import model.report.AveragingMonthlyReportCollection;
 import model.report.MonthlyReportInterface;
+import model.report.factory.RelevantReportsFactory;
 import model.value.Month;
-import model.exception.InvalidArgumentException;
-import model.persistance.Repository;
-import model.report.MonthlyReport;
 
 import java.util.ArrayList;
 

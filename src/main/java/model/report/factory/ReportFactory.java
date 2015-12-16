@@ -1,4 +1,4 @@
-package model.factory;
+package model.report.factory;
 
 import model.exception.InvalidArgumentException;
 import model.persistance.Repository;

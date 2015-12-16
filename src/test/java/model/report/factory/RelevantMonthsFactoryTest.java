@@ -1,13 +1,11 @@
-package model.factory;
+package model.report.factory;
 
 import model.value.Month;
 import org.junit.Test;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class RelevantMonthsFactoryTest {
 
@@ -17,8 +15,8 @@ public class RelevantMonthsFactoryTest {
         ArrayList<Month> result = testClass.getRelevantMonths(Month.createFromString("2015-01"));
 
         assertEquals(3, result.size());
-        assertTrue(new Month(2014, 12).isEqualTo(result.get(0)));
-        assertTrue(new Month(2014, 11).isEqualTo(result.get(1)));
-        assertTrue(new Month(2014, 10).isEqualTo(result.get(2)));
+        assertEquals(new Month(2014, 12).toString(), result.get(0).toString());
+        assertEquals(new Month(2014, 11).toString(), result.get(1).toString());
+        assertEquals(new Month(2014, 10).toString(), result.get(2).toString());
     }
 }
