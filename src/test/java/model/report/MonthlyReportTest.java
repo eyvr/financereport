@@ -1,6 +1,5 @@
 package model.report;
 
-import model.exception.InvalidArgumentException;
 import model.value.Month;
 import model.value.Transaction;
 import model.value.TransactionType;
@@ -16,9 +15,9 @@ import static org.junit.Assert.assertEquals;
 public class MonthlyReportTest
 {
     @Test
-    public void testGetMonth() throws InvalidArgumentException, ParseException {
-        TransactionType typeA = TransactionType.CLOTHES;
-        TransactionType typeB = TransactionType.ENTERTAINMENT;
+    public void testGetMonth() throws ParseException {
+        TransactionType typeA = new TransactionType("CLOTHES");
+        TransactionType typeB = new TransactionType("ENTERTAINMENT");
 
         List<Transaction> transactions = new ArrayList<>();
         Month month = new Month(2015, 1);
@@ -30,9 +29,9 @@ public class MonthlyReportTest
         assertEquals(15.00f, report.getTotal(typeA), 0);
     }
 
-    @Test(expected=InvalidArgumentException.class)
-    public void testCreatingFromWrongTransactionsThrowsErrors() throws InvalidArgumentException, ParseException {
-        TransactionType typeA = TransactionType.CLOTHES;
+    @Test(expected=IllegalArgumentException.class)
+    public void testCreatingFromWrongTransactionsThrowsErrors() throws ParseException {
+        TransactionType typeA = new TransactionType("CLOTHES");
 
         List<Transaction> transactions = new ArrayList<>();
         Month month = new Month(2015, 1);
@@ -53,9 +52,9 @@ public class MonthlyReportTest
     }
 
     @Test
-    public void testGetTotal() throws InvalidArgumentException, ParseException {
-        TransactionType typeA = TransactionType.CLOTHES;
-        TransactionType typeB = TransactionType.ENTERTAINMENT;
+    public void testGetTotal() throws ParseException {
+        TransactionType typeA = new TransactionType("CLOTHES");
+        TransactionType typeB = new TransactionType("ENTERTAINMENT");
 
         List<Transaction> transactions = new ArrayList<>();
         Month month = new Month(2015, 1);
@@ -68,8 +67,8 @@ public class MonthlyReportTest
     }
 
     @Test
-    public void testGetDailyAverage() throws Exception, InvalidArgumentException {
-        TransactionType typeB = TransactionType.ENTERTAINMENT;
+    public void testGetDailyAverage() throws Exception {
+        TransactionType typeB = new TransactionType("ENTERTAINMENT");
 
         List<Transaction> transactions = new ArrayList<>();
         transactions.add(getTransaction(new Month(2015, 3), typeB, 310.00f));

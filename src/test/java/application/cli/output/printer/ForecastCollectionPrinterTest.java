@@ -1,9 +1,8 @@
-package application.cli.printer;
+package application.cli.output.printer;
 
-import application.cli.output.FakeOutput;
 import model.report.MonthlyReport;
-import model.value.Forecast;
-import model.value.ForecastCollection;
+import model.forecast.Forecast;
+import model.forecast.ForecastCollection;
 import model.value.Month;
 import org.junit.Test;
 

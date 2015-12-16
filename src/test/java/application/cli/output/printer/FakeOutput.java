@@ -1,4 +1,6 @@
-package application.cli.output;
+package application.cli.output.printer;
+
+import application.cli.output.OutputInterface;
 
 public class FakeOutput implements OutputInterface {
 
@@ -10,13 +12,13 @@ public class FakeOutput implements OutputInterface {
     }
 
     @Override
-    public void write(String string)
+    public void print(String string)
     {
         this.output += string;
     }
 
     @Override
-    public void writeln(String string)
+    public void println(String string)
     {
         this.output += string + "\n";
     }

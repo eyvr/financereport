@@ -1,20 +1,25 @@
 package model;
 
-import model.exception.InvalidArgumentException;
-import model.report.MonthlyReportInterface;
-import model.report.Oracle;
-import model.value.ForecastCollection;
+import model.forecast.ForecastMaker;
+import model.report.factory.RelevantReportsFactory;
+import model.forecast.ForecastCollection;
+import model.value.Month;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 
+/**
+ * Main use case - calculate forecast based on data from previous months.
+ */
 public class GetForecasts {
-    private Oracle oracle;
+    private RelevantReportsFactory relevantReportsFactory;
+    private ForecastMaker forecastMaker;
 
-    public GetForecasts(Oracle oracle) {
-        this.oracle = oracle;
+    public GetForecasts(RelevantReportsFactory relevantReportsFactory, ForecastMaker forecastMaker) {
+        this.relevantReportsFactory = relevantReportsFactory;
+        this.forecastMaker = forecastMaker;
     }
 
-    public ForecastCollection getForecast(ArrayList<MonthlyReportInterface> monthlyReports) throws InvalidArgumentException {
-        return oracle.guessPayUpMonth(monthlyReports);
+    public ForecastCollection getForecast(Month month) throws SQLException {
+        return forecastMaker.guessPayUpMonth(relevantReportsFactory.getRelevantReports(month));
     }
 }

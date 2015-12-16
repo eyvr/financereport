@@ -1,4 +1,4 @@
-package model;
+package model.value;
 
 import model.value.Month;
 import org.junit.Test;

@@ -1,6 +1,5 @@
 package model.report.factory;
 
-import model.exception.InvalidArgumentException;
 import model.persistance.Repository;
 import model.report.MonthlyReport;
 import model.value.Month;
@@ -19,14 +18,14 @@ import static org.mockito.Mockito.when;
 public class ReportFactoryTest {
 
     @Test
-    public void testCreateMonthlyReport() throws Exception, InvalidArgumentException {
+    public void testCreateMonthlyReport() throws Exception {
         Repository repository = mock(Repository.class);
         ReportFactory reportFactory = new ReportFactory(repository);
 
         Month month = Month.createFromString("2015-01");
 
         ArrayList<Transaction> list = new ArrayList<>();
-        list.add(new Transaction("asd", new SimpleDateFormat("yyyy-MM-dd").parse("2015-01-01"), TransactionType.CLOTHES, 12f));
+        list.add(new Transaction("asd", new SimpleDateFormat("yyyy-MM-dd").parse("2015-01-01"), new TransactionType("CLOTHES"), 12f));
         when(repository.getTransactionsForMonth(month)).thenReturn(list);
 
         MonthlyReport result = reportFactory.createMonthlyReport(month);

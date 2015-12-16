@@ -1,9 +1,10 @@
 package model;
 
-import model.exception.InvalidArgumentException;
 import model.report.MonthlyReportInterface;
-import model.report.Oracle;
-import model.value.ForecastCollection;
+import model.forecast.ForecastMaker;
+import model.report.factory.RelevantReportsFactory;
+import model.forecast.ForecastCollection;
+import model.value.Month;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -15,15 +16,20 @@ import static org.mockito.Mockito.when;
 public class GetForecastsTest {
 
     @Test
-    public void testGetForecast() throws Exception, InvalidArgumentException {
+    public void testGetForecast() throws Exception {
+        Month month = Month.createCurrent();
+
         ArrayList<MonthlyReportInterface> monthlyReports = new ArrayList<>();
 
-        ForecastCollection forecastCollection = mock(ForecastCollection.class);
-        Oracle oracle = mock(Oracle.class);
-        when(oracle.guessPayUpMonth(monthlyReports)).thenReturn(forecastCollection);
+        RelevantReportsFactory relevantReportsFactory = mock(RelevantReportsFactory.class);
+        when(relevantReportsFactory.getRelevantReports(month)).thenReturn(monthlyReports);
 
-        GetForecasts getForecasts = new GetForecasts(oracle);
-        ForecastCollection result = getForecasts.getForecast(monthlyReports);
+        ForecastCollection forecastCollection = mock(ForecastCollection.class);
+        ForecastMaker forecastMaker = mock(ForecastMaker.class);
+        when(forecastMaker.guessPayUpMonth(monthlyReports)).thenReturn(forecastCollection);
+
+        GetForecasts getForecasts = new GetForecasts(relevantReportsFactory, forecastMaker);
+        ForecastCollection result = getForecasts.getForecast(month);
 
         assertNotNull(result);
     }

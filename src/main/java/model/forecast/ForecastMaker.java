@@ -1,16 +1,15 @@
-package model.report;
+package model.forecast;
 
-import model.value.Forecast;
-import model.value.ForecastCollection;
+import model.report.MonthlyReportInterface;
 import model.value.Month;
 
 import java.util.ArrayList;
 
-public class Oracle {
+public class ForecastMaker {
     private final Month currentMonth;
     private final float targetAmount;
 
-    public Oracle(Month currentMonth, float targetAmount) {
+    public ForecastMaker(Month currentMonth, float targetAmount) {
         this.currentMonth = currentMonth;
         this.targetAmount = targetAmount;
     }

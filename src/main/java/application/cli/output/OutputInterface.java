@@ -1,7 +1,7 @@
 package application.cli.output;
 
 public interface OutputInterface {
-    void write(String string);
+    void print(String string);
 
-    void writeln(String string);
+    void println(String string);
 }

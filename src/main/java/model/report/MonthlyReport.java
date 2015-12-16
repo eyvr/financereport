@@ -1,6 +1,5 @@
 package model.report;
 
-import model.exception.InvalidArgumentException;
 import model.value.Month;
 import model.value.Transaction;
 import model.value.TransactionType;
@@ -11,11 +10,11 @@ import java.util.Objects;
 public class MonthlyReport implements MonthlyReportInterface {
     private List<Transaction> transactions;
 
-    public MonthlyReport(List<Transaction> transactions) throws InvalidArgumentException {
+    public MonthlyReport(List<Transaction> transactions)  {
         String lastMonth = null;
         for (Transaction transaction : transactions) {
             if (lastMonth != null && !Objects.equals(transaction.getMonthYear(), lastMonth)) {
-                throw new InvalidArgumentException(
+                throw new IllegalArgumentException(
                         "Monthly report may be created only from transactions from one month"
                 );
             }
@@ -40,7 +39,7 @@ public class MonthlyReport implements MonthlyReportInterface {
         float sum = 0f;
 
         for (Transaction transaction : transactions) {
-            if (type == transaction.getType()) {
+            if (Objects.equals(type.getName(), transaction.getType().getName())) {
                 sum = sum + transaction.getAmount();
             }
         }

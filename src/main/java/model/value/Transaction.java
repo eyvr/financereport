@@ -38,7 +38,7 @@ public class Transaction {
         return String.format(
                 "%s %13s %9s %s",
                 new java.text.SimpleDateFormat("yyyy-MM-dd").format(date),
-                type.toString(),
+                type.getName(),
                 String.format("%.2f", amount),
                 title.replace("\n", " ")
         );

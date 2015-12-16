@@ -1,8 +1,8 @@
-package application.cli.printer;
+package application.cli.output.printer;
 
 import application.cli.output.OutputInterface;
-import model.value.Forecast;
-import model.value.ForecastCollection;
+import model.forecast.Forecast;
+import model.forecast.ForecastCollection;
 import model.value.Month;
 
 public class ForecastCollectionPrinter {
@@ -19,7 +19,7 @@ public class ForecastCollectionPrinter {
         Forecast optimisic = forecastCollection.getOptimistic();
         Forecast pessimistic = forecastCollection.getPessimistic();
         if (optimisic == null) {
-            output.writeln(String.format("Looks like you won't achieve this goal: %.0f.", forecastCollection.getTargetAmount()));
+            output.println(String.format("Looks like you won't achieve this goal: %.0f.", forecastCollection.getTargetAmount()));
             return;
         }
 
@@ -28,20 +28,20 @@ public class ForecastCollectionPrinter {
     }
 
     private void printStats(ForecastCollection forecastCollection, Month current, Forecast optimistic, Forecast pessimistic) {
-        output.writeln(String.format("Target amount: %.0f", forecastCollection.getTargetAmount()));
-        output.writeln("");
-        output.writeln(String.format("Current:     %s", current));
-        output.writeln(String.format("Optimistic:  %s (%d months left, based on %s)",
+        output.println(String.format("Target amount: %.0f", forecastCollection.getTargetAmount()));
+        output.println("");
+        output.println(String.format("Current:     %s", current));
+        output.println(String.format("Optimistic:  %s (%d months left, based on %s)",
                 optimistic.getMonth(),
                 current.getDiff(optimistic.getMonth()),
                 optimistic.getReport().getMonthLabel()
         ));
-        output.writeln(String.format("Pessimistic: %s (%d months left, based on %s)",
+        output.println(String.format("Pessimistic: %s (%d months left, based on %s)",
                 pessimistic.getMonth(),
                 current.getDiff(pessimistic.getMonth()),
                 pessimistic.getReport().getMonthLabel()
         ));
-        output.writeln("");
+        output.println("");
     }
 
     private void printCalendar(Month current, Month optimisic, Month pessimistic) {
@@ -49,26 +49,26 @@ public class ForecastCollectionPrinter {
         Month last = new Month(pessimistic.getYear(), 12);
         while(!last.isEarlierThan(tmp)) {
             if (tmp.getMonth() == 1) {
-                output.write(tmp.getYear() + " |");
+                output.print(tmp.getYear() + " |");
             }
 
             if (tmp.isEqual(optimisic)) {
-                output.write("O");
+                output.print("O");
             } else if (tmp.isEqual(pessimistic)) {
-                output.write("P");
+                output.print("P");
             } else if (tmp.isEqual(current)) {
-                output.write("C");
+                output.print("C");
             } else if (tmp.isEarlierThan(current) || pessimistic.isEarlierThan(tmp)) {
-                output.write(" ");
+                output.print(" ");
             } else {
-                output.write("-");
+                output.print("-");
             }
 
             if (tmp.getMonth() == 12) {
-                output.writeln("|");
+                output.println("|");
             }
             tmp = tmp.getNextMonth();
         }
-        output.writeln("");
+        output.println("");
     }
 }

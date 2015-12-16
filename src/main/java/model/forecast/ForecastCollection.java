@@ -1,4 +1,6 @@
-package model.value;
+package model.forecast;
+
+import model.value.Month;
 
 import java.util.ArrayList;
 

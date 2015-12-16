@@ -1,6 +1,7 @@
-package model.value;
+package model.forecast;
 
 import model.report.MonthlyReportInterface;
+import model.value.Month;
 
 public class Forecast {
     private MonthlyReportInterface report;

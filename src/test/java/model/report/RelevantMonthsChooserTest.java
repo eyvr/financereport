@@ -1,5 +1,6 @@
-package model.report.factory;
+package model.report;
 
+import model.report.RelevantMonthsChooser;
 import model.value.Month;
 import org.junit.Test;
 
@@ -7,11 +8,11 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
-public class RelevantMonthsFactoryTest {
+public class RelevantMonthsChooserTest {
 
     @Test
     public void testGetRelevantMonths() throws Exception {
-        RelevantMonthsFactory testClass = new RelevantMonthsFactory();
+        RelevantMonthsChooser testClass = new RelevantMonthsChooser();
         ArrayList<Month> result = testClass.getRelevantMonths(Month.createFromString("2015-01"));
 
         assertEquals(3, result.size());

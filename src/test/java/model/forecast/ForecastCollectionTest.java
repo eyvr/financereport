@@ -1,8 +1,9 @@
-package model.value;
+package model.forecast;
 
-import junit.framework.Assert;
-import model.exception.ForecastedInfinityException;
 import model.report.MonthlyReport;
+import model.forecast.Forecast;
+import model.forecast.ForecastCollection;
+import model.value.Month;
 import org.junit.Test;
 
 import java.text.ParseException;

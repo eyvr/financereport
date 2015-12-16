@@ -1,20 +1,15 @@
 package model.value;
 
-public enum TransactionType {
-    CLOTHES,
-    DEBTS,
-    ENTERTAINMENT,
-    FOOD,
-    HARDWARE,
-    HOUSING,
-    OTHER,
-    PHONE,
-    SALARY,
-    TRANSPORT,
-    ;
+public class TransactionType {
+    private String name;
 
-    public String toString() {
-        return name();
+    public TransactionType(String name)
+    {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }
 

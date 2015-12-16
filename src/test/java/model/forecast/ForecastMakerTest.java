@@ -1,7 +1,11 @@
-package model.report;
+package model.forecast;
 
-import model.value.ForecastCollection;
+import model.forecast.ForecastMaker;
+import model.forecast.ForecastCollection;
+import model.report.MonthlyReport;
+import model.report.MonthlyReportInterface;
 import model.value.Month;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.text.ParseException;
@@ -12,28 +16,28 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class OracleTest {
+public class ForecastMakerTest {
 
     @Test
     public void testGuessPayUpMonth() throws ParseException {
-        Oracle testClass = new Oracle(Month.createFromString("2015-01"), 300f);
+        ForecastMaker testClass = new ForecastMaker(Month.createFromString("2015-01"), 300f);
 
-        assertEquals("2015-01", testClass.guessPayUpMonth(getReportMock(10f)).getMonth().toString());
-        assertEquals("2015-01", testClass.guessPayUpMonth(getReportMock(3000f)).getMonth().toString());
-        assertEquals("2015-02", testClass.guessPayUpMonth(getReportMock(8f)).getMonth().toString());
-        assertEquals("2015-10", testClass.guessPayUpMonth(getReportMock(1f)).getMonth().toString());
+        Assert.assertEquals("2015-01", testClass.guessPayUpMonth(getReportMock(10f)).getMonth().toString());
+        Assert.assertEquals("2015-01", testClass.guessPayUpMonth(getReportMock(3000f)).getMonth().toString());
+        Assert.assertEquals("2015-02", testClass.guessPayUpMonth(getReportMock(8f)).getMonth().toString());
+        Assert.assertEquals("2015-10", testClass.guessPayUpMonth(getReportMock(1f)).getMonth().toString());
     }
 
     @Test
     public void testGuessPayUpIfDailyAverageIsNegative() throws ParseException {
-        Oracle testClass = new Oracle(Month.createFromString("2015-01"), 300f);
+        ForecastMaker testClass = new ForecastMaker(Month.createFromString("2015-01"), 300f);
 
         assertNull(testClass.guessPayUpMonth(getReportMock(-1f)).getMonth());
     }
 
     @Test
     public void testGuessPayUpMonth2() throws ParseException {
-        Oracle testClass = new Oracle(Month.createFromString("2015-01"), 300f);
+        ForecastMaker testClass = new ForecastMaker(Month.createFromString("2015-01"), 300f);
 
         ForecastCollection forecastCollection = testClass.guessPayUpMonth(getReportMocks(10f, 1f));
 

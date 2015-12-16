@@ -1,10 +1,10 @@
-package model.report.factory;
+package model.report;
 
 import model.value.Month;
 
 import java.util.ArrayList;
 
-public class RelevantMonthsFactory {
+public class RelevantMonthsChooser {
     public ArrayList<Month> getRelevantMonths(Month currentMonth)
     {
         ArrayList<Month> result = new ArrayList<>();
